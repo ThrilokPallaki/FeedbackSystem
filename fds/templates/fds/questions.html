@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Feedback questions</title>
+	{% load static%}
+	<link rel="stylesheet" href="{% static 'fds/style.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="title-head">
+			<p>Feedback App</p>
+		</div>
+		<div class="rank-container">
+			<form action="{% url 'fds:questions' rank_id %}" method="post">
+				{% csrf_token %}
+				{% for question in questions %}
+				<label for="question{{forloop.counter}}">{{question}}</label><br>
+					<input type="text" name="answer{{question.id}}" id="question{{forloop.counter}}" style="height:30px; width:90%; font-size:1.0em;" size="35" required/><br>
+				{% endfor %}
+				<button type="submit" class="question_submit">submit</button>
+			</form>
+		</div>
+		<div class="title-foot">
+			<p>&copy;example.com 2018</p>
+		</div>
+	</div>
+</body>
+</html>

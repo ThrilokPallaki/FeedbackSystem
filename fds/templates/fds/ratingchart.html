@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  {% load static %}
+  <script src="{% static 'fds/static.js' %}"></script>
+  <script src="{% static 'fds/Chart.min.js' %}" type="text/javascript"></script>
+  <title>Rating Chart</title>
+</head>
+<body align="center" onload="draw()">
+  {% for rank in ranks %}
+    <input type="hidden" name="ranks" id="rank{{forloop.counter}}" value="{{rank}}"/>
+    {% endfor %}
+    <div style="width:400px; height:400px; display:block; position:fixed; top:50%; left:50%; margin-top:-200px; margin-left:-200px;">
+ 	 <canvas id="myCanvas" width="400" height="400"></canvas>
+    </div>
+</body>
+</html>

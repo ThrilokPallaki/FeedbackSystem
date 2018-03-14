@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ThankingYou</title>
+	{%load static%}
+	<link rel="stylesheet" href="{% static 'fds/style.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="title-head">
+			<p>Feedback App</p>
+		</div>
+		<div class="wish">
+			<p class="wish-data">Thanks for your Feedback</p>
+		</div>
+		<div class="question">
+			<p>would you like to answer some <a href="{% url 'fds:questions' rank_id %}">questions</a></p>
+					<p>or</p>
+			<p><a href="{% url 'fds:goodbye' %}">Skip</a> this step</p>
+		</div>
+		<div class="title-foot">
+			<p>&copy;example.com 2018</p>
+		</div>
+	</div>
+</body>
+</html>

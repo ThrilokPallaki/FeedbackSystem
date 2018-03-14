@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Customer Feedback</title>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'fds/style.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="title-head">
+			<p>Feedback App</p>
+		</div>
+		<div class="rank-head">
+			<h3>How do you like our Service ?</h3>
+		</div>
+		<div class="rank-container">
+			<form action="{% url 'fds:ranking' %}" method="post">
+				{% csrf_token %}
+				<div class="excellent">
+					<p><button type="submit" name="rank" value="excellent">Excellent</button></p>
+				</div>
+				<div class="good">
+					<p><button type="submit" name="rank" value="good">Good</button></p>
+				</div>
+				<div class="average">
+					<p><button type="submit" name="rank" value="average">Average</button></p>
+				</div>
+				<div class="worst">
+					<p><button type="submit" name="rank" value="worst">Worst</button></p>
+				</div>
+			</form>
+		</div>
+		<div class="title-foot">
+			<p>&copy;example.com 2018</p>
+		</div>
+	</div>
+	
+</body>
+</html>
