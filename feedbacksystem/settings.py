@@ -80,8 +80,8 @@ DATABASES = {
         'NAME': 'feedbacksystem',
         'HOST':'localhost',
         'PORT':3306,
-        'USER':'YOUR DATABASE',
-        'PASSWORD':'*********',
+        'USER':'phpmyadmin',
+        'PASSWORD':'thrilok9625'
 
     }
 }

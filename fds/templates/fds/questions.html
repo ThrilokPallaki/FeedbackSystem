@@ -12,11 +12,17 @@
 			<p>Feedback App</p>
 		</div>
 		<div class="rank-container">
-			<form action="{% url 'fds:questions' rank_id %}" method="post">
+			<form action="{% url 'fds:questions' user %}" method="post">
 				{% csrf_token %}
 				{% for question in questions %}
 				<label for="question{{forloop.counter}}">{{question}}</label><br>
-					<input type="text" name="answer{{question.id}}" id="question{{forloop.counter}}" style="height:30px; width:90%; font-size:1.0em;" size="35" required/><br>
+					<input type="text" name="answer{{forloop.counter}}" id="question{{forloop.counter}}" style="height:30px; width:90%; font-size:1.0em;" size="35" required/><br>
+					<select name="userrank{{forloop.counter}}">
+						<option value="------">------</option>
+						{% for rank in ranks %}
+						<option value="{{rank}}">{{rank}}</option>
+						{% endfor %}
+					</select>
 				{% endfor %}
 				<button type="submit" class="question_submit">submit</button>
 			</form>

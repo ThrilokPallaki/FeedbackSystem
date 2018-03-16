@@ -5,25 +5,29 @@ from django.db import models
 
 # Create your models here
 
-class Ranking(models.Model):
+class Questions(models.Model):
+    questions = models.CharField(max_length=400)
+
+
+    def __str__(self):
+        return self.questions
+
+class Users(models.Model):
+    user_name = models.CharField(max_length=200)
+    user_email = models.EmailField(max_length=200)
+    mobile_no = models.CharField(max_length=100)
     rank = models.CharField(max_length=200)
 
     def __str__(self):
         return self.rank
 
 
-class Questions(models.Model):
-    questions = models.CharField(max_length=400)
-
-    def __str__(self):
-        return self.questions
-
 class Answers(models.Model):
-    rank = models.ForeignKey(Ranking, on_delete=models.CASCADE)
-    questions = models.ForeignKey(Questions, on_delete=models.CASCADE)
-    answers = models.TextField(blank=True)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    question = models.ForeignKey(Questions, on_delete=models.CASCADE)
+    answer = models.TextField(blank=True)
+    rank = models.CharField(max_length=200)
+
 
     def __str__(self):
         return self.answers
-
-
