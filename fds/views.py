@@ -12,16 +12,16 @@ from django.views.generic.edit import CreateView
 #     return render(request, 'fds/index.html')
 
 
-def fdsuser(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        useremail = request.POST['useremail']
-        usermobile = request.POST['usermobile']
-        userrank = request.POST['userranking']
-        user = Users.objects.create(user_name=username, user_email=useremail, mobile_no=usermobile, rank=userrank)
-        user_id = user.id
-        return HttpResponseRedirect(reverse('fds:thankyou', kwargs={'user': user_id}))
-    return render(request, 'fds/fds.html')
+# def fdsuser(request):
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         useremail = request.POST['useremail']
+#         usermobile = request.POST['usermobile']
+#         userrank = request.POST['userranking']
+#         user = Users.objects.create(user_name=username, user_email=useremail, mobile_no=usermobile, rank=userrank)
+#         user_id = user.id
+#         return HttpResponseRedirect(reverse('fds:thankyou', kwargs={'user': user_id}))
+#     return render(request, 'fds/fds.html')
 
 
 class UserCreateView(CreateView):
@@ -54,9 +54,6 @@ def questions(request, user_id):
     return render(request, 'fds/questions.html', {'questions':questions, 'user':user_id, 'ranks':['Excellent', 'Good', 'Average', 'Worst']})
 
 
-
-class Questions(CreateView)
-
 class GoodByeView(TemplateView):
     template_name = 'fds/goodbye.html'
 
@@ -67,8 +64,7 @@ class GoodByeView(TemplateView):
 
 class RatingGraphView(TemplateView):
     template_name = 'fds/ratingchart.html'
-    
-    
+
     def get_context_data(self, **kwargs):
         ecount, gcount, acount, wcount = [0,0,0,0]
         context = super(RatingGraphView, self).get_context_data(**kwargs)
@@ -84,5 +80,3 @@ class RatingGraphView(TemplateView):
                 wcount += 1
         context['ranks'] = [ecount, gcount, acount, wcount]
         return context
-
-
