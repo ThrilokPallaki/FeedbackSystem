@@ -4,9 +4,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.shortcuts import render
 from .models import Questions, Answers, Users
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
+
 # Create your views here.
 # def fdsHome(request):
 #     return render(request, 'fds/index.html')
+
 
 def fdsuser(request):
     if request.method == 'POST':
@@ -16,8 +20,17 @@ def fdsuser(request):
         userrank = request.POST['userranking']
         user = Users.objects.create(user_name=username, user_email=useremail, mobile_no=usermobile, rank=userrank)
         user_id = user.id
-        return render(request, 'fds/thankingyou.html', {'user':user_id})
+        return HttpResponseRedirect(reverse('fds:thankyou', kwargs={'user': user_id}))
     return render(request, 'fds/fds.html')
+
+
+class UserCreateView(CreateView):
+    model = Users
+    fields = ['user_name', 'user_email', 'mobile_no', 'rank']
+
+
+class ThankingYouView(TemplateView):
+    template_name = 'fds/thankingyou.html'
 
 
 # def ranking(request):
@@ -29,6 +42,7 @@ def fdsuser(request):
 #     return render(request, 'fds/index.html')
 #
 #
+
 def questions(request, user_id):
     user = Users.objects.get(pk=user_id) # Getting user object
     questions = Questions.objects.all() # Getting question object
@@ -40,22 +54,35 @@ def questions(request, user_id):
     return render(request, 'fds/questions.html', {'questions':questions, 'user':user_id, 'ranks':['Excellent', 'Good', 'Average', 'Worst']})
 
 
-def goodBye(request):
-    return render(request,'fds/goodbye.html')
+
+class Questions(CreateView)
+
+class GoodByeView(TemplateView):
+    template_name = 'fds/goodbye.html'
 
 
+#def goodBye(request):
+#    return render(request,'fds/goodbye.html')
 
-# def ratingGraph(request):
-#     ecount, gcount, acount, wcount = 0,0,0,0
-#     rankings = Ranking.objects.all()
-#     for rank in rankings:
-#         if str(rank) == 'excellent':
-#             ecount +=1
-#         elif str(rank) == 'good':
-#             gcount +=1
-#         elif str(rank) == 'average':
-#             acount +=1
-#         elif str(rank) == 'worst':
-#             wcount +=1
-#     ranks = [ecount, gcount, acount, wcount]
-#     return render(request, 'fds/ratingchart.html', {'ranks':ranks})
+
+class RatingGraphView(TemplateView):
+    template_name = 'fds/ratingchart.html'
+    
+    
+    def get_context_data(self, **kwargs):
+        ecount, gcount, acount, wcount = [0,0,0,0]
+        context = super(RatingGraphView, self).get_context_data(**kwargs)
+        ranks = Users.objects.values_list('rank', flat=True)
+        for rank in ranks:
+            if str(rank) == 'Excellent':
+                ecount += 1
+            elif str(rank) == 'Good':
+                gcount += 1
+            elif str(rank) == 'Average':
+                acount += 1
+            elif str(rank) == 'Worst':
+                wcount += 1
+        context['ranks'] = [ecount, gcount, acount, wcount]
+        return context
+
+

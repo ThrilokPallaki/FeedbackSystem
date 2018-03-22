@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from django.core.urlresolvers import reverse
 # Create your models here
 
 class Questions(models.Model):
@@ -13,10 +13,19 @@ class Questions(models.Model):
         return self.questions
 
 class Users(models.Model):
+    RANK_CHOICES = (
+            ('Excellent', 'Excellent'),
+            ('Good', 'Good'),
+            ('Average', 'Average'),
+            ('Worst', 'Worst'),
+            )
     user_name = models.CharField(max_length=200)
     user_email = models.EmailField(max_length=200)
     mobile_no = models.CharField(max_length=100)
-    rank = models.CharField(max_length=200)
+    rank = models.CharField(max_length=20, choices=RANK_CHOICES)
+
+    def get_absolute_url(self):
+        return reverse('fds:thankyou', kwargs={'user':self.pk})
 
     def __str__(self):
         return self.rank
