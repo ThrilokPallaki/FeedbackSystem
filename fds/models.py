@@ -25,13 +25,13 @@ class Users(models.Model):
         return reverse('fds:thankyou', kwargs={'user':self.pk})
 
     def __str__(self):
-        return self.rank
+        return self.user_name
 
 class Answers(models.Model):
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     question = models.ForeignKey(Questions, on_delete=models.CASCADE)
     answer = models.TextField(blank=True)
-    rank = models.CharField(max_length=200, choices=RANKS_CHOICES)
+    rank = models.CharField(max_length=200, choices=RANK_CHOICES)
 
     def __str__(self):
-        return self.user
+        return self.answer
