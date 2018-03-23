@@ -5,6 +5,9 @@ from django.db import models
 from django.core.urlresolvers import reverse
 # Create your models here
 
+
+RANK_CHOICES = (('Excellent', 'Excellent'),('Good', 'Good'),('Average', 'Average'),('Worst', 'Worst'),)
+
 class Questions(models.Model):
     questions = models.CharField(max_length=400)
 
@@ -13,12 +16,6 @@ class Questions(models.Model):
         return self.questions
 
 class Users(models.Model):
-    RANK_CHOICES = (
-            ('Excellent', 'Excellent'),
-            ('Good', 'Good'),
-            ('Average', 'Average'),
-            ('Worst', 'Worst'),
-            )
     user_name = models.CharField(max_length=200)
     user_email = models.EmailField(max_length=200)
     mobile_no = models.CharField(max_length=100)
@@ -30,13 +27,11 @@ class Users(models.Model):
     def __str__(self):
         return self.rank
 
-
 class Answers(models.Model):
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     question = models.ForeignKey(Questions, on_delete=models.CASCADE)
     answer = models.TextField(blank=True)
-    rank = models.CharField(max_length=200)
-
+    rank = models.CharField(max_length=200, choices=RANKS_CHOICES)
 
     def __str__(self):
-        return self.answers
+        return self.user

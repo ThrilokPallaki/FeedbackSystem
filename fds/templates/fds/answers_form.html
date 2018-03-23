@@ -10,6 +10,16 @@
 				<label class="label-control">{{ field.name| capfirst }}:</label>
 				{{ field }}
 			</div>
+    {% elif field.name == 'question'%}
+    <div class="form-group">
+      <label class="label-control">{{ field.name| capfirst }}:</label>
+      {{ field }}
+    </div>
+    {% elif field.name == 'user'%}
+    <div class="form-group">
+      <label class="label-control">{{ field.name| capfirst }}:</label>
+      {{ field }}
+    </div>
 		{% else %}
 			<div class="form-group">
 				<label class="label-control">{{ field.name| capfirst }}:</label>

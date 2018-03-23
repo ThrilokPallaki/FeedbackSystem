@@ -15,7 +15,21 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-{% block body %}
-{% endblock %}
+  <!-- Modal  -->
+  <div class="modal" style="display:block; overflow:scroll;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">FeedbackSystem</h4>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          {% block body %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
