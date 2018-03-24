@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dashboard - feedbacksystem</title>
+  {% load static %}
+  <script src="{% static 'fds/Chart.min.js' %}"></script>
+  <script src="{% static 'fds/static.js' %}"></script>
+</head>
+<body onload="getData()">
+  <div class="container">
+    {% for rank in main_ranks %}
+      <input type="hidden" name="main_ranks" value="{{ rank }}" id="rank{{ forloop.counter }}" />
+    {% endfor %}
+    <div class="overall-rank-container" style="border:1px solid grey; display:inline-block;">
+      <p style="text-align:center;" >This is overall ranking of the restarent</p>
+      <canvas id="overall_rank_canvas"></canvas>
+    </div>
+    {% for question1_rank in question1_ranks %}
+      <input type="hidden" name="question1_rank" value="{{ question1_rank }}" id="question1_rank{{ forloop.counter }}" />
+    {% endfor %}
+    <div class="question1-rank" style="border:1px solid grey; width:300px; height:280px; margin-top:10px; margin-left:10px; margin-right:10px; display:inline-block; ">
+      <p style="text-align:center;">This is Quesetion1 ranking of the restarent</p>
+      <canvas id="question1_rank_canvas" ></canvas>
+    </div>
+    {% for question2_rank in question2_ranks %}
+      <input type="hidden" name="question2_rank" value="{{ question2_rank }}" id="question2_rank{{ forloop.counter }}" />
+    {% endfor %}
+    <div class="question2-rank" style="border:1px solid grey; width:300px; height:280px; margin-top:10px; margin-right:10px; display:inline-block;">
+      <p style="text-align:center;">This is Question2 ranking of the restarent</p>
+      <canvas id="question2_rank_canvas" ></canvas>
+    </div>
+    {% for question3_rank in question3_ranks %}
+      <input type="hidden" name="question3_rank" value="{{ question3_rank }}" id="question3_rank{{ forloop.counter }}" />
+    {% endfor %}
+
+    <div class="question3-rank" style="border:1px solid grey; width:300px; height:280px; margin-top:10px;  margin-left:10px;  display:inline-block;">
+      <p style="text-align:center;">This is Question3 ranking of the restarent</p>
+      <canvas id="question3_rank_canvas"></canvas>
+    </div>
+  </div>
+</body>
+</html>

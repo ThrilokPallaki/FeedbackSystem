@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from .models import Questions, Answers, Users
+from fds.forms import UsersAnswers
 
 
 class UserCreateView(CreateView):
@@ -17,8 +18,23 @@ class ThankingYouView(TemplateView):
     template_name = 'fds/thankingyou.html'
 
 
-def questions(request, user_id):
-    user = Users.objects.get(pk=user_id) # Getting user object
+# class AnswersFormView(FormView):
+#     template_name = 'questionform.html'
+#     form_class = UsersAnswers
+#     success_url = '/goodbye/'
+#
+#     def get_form_kwargs(self):
+#         kwargs = super(AnswersFormView, self).get_form_kwargs()
+#         kwargs['user'] = self.kwargs['user']
+#         return kwargs
+#
+#     def post(request, *args, **kwargs):
+#         form = users()
+#         form_valid(form)
+
+
+def questions(request, user):
+    user = Users.objects.get(pk=user) # Getting user object
     questions = Questions.objects.all() # Getting question object
 
     if request.method == 'POST':
@@ -55,9 +71,71 @@ class RatingGraphView(TemplateView):
         return context
 
 
+class DashboardView(TemplateView):
+    template_name = 'fds/dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        main_ecount, main_gcount, main_acount, main_wcount = [0,0,0,0]
+        q1_ecount, q1_gcount, q1_acount, q1_wcount = [0,0,0,0]
+        q2_ecount, q2_gcount, q2_acount, q2_wcount = [0,0,0,0]
+        q3_ecount, q3_gcount, q3_acount, q3_wcount = [0,0,0,0]
+        context = super(DashboardView, self).get_context_data(**kwargs)
+        main_ranks = Users.objects.values_list('rank', flat=True)
 
+        for rank in main_ranks:
+            if str(rank) == 'Excellent':
+                main_ecount += 1
+            elif str(rank) == 'Good':
+                main_gcount += 1
+            elif str(rank) == 'Average':
+                main_acount += 1
+            elif str(rank) == 'Worst':
+                main_wcount += 1
 
+        q1 = Questions.objects.get(pk=1)
+        q1_ranks = q1.answers_set.all()
+
+        for rank in q1_ranks:
+            if str(rank.rank) == 'Excellent':
+                q1_ecount += 1
+            elif str(rank.rank) == 'Good':
+                q1_gcount += 1
+            elif str(rank.rank) == 'Average':
+                q1_acount += 1
+            elif str(rank.rank) == 'Worst':
+                q1_wcount += 1
+
+        q2 = Questions.objects.get(pk=2)
+        q2_ranks = q2.answers_set.all()
+
+        for rank in q2_ranks:
+            if str(rank.rank) == 'Excellent':
+                q2_ecount += 1
+            elif str(rank.rank) == 'Good':
+                q2_gcount += 1
+            elif str(rank.rank) == 'Average':
+                q2_acount += 1
+            elif str(rank.rank) == 'Worst':
+                q2_wcount += 1
+
+        q3 = Questions.objects.get(pk=3)
+        q3_ranks = q3.answers_set.all()
+
+        for rank in q3_ranks:
+            if str(rank.rank) == 'Excellent':
+                q3_ecount += 1
+            elif str(rank.rank) == 'Good':
+                q3_gcount += 1
+            elif str(rank.rank) == 'Average':
+                q3_acount += 1
+            elif str(rank.rank) == 'Worst':
+                q3_wcount += 1
+
+        context['main_ranks'] = [main_ecount, main_gcount, main_acount, main_wcount]
+        context['question1_ranks'] = [q1_ecount, q1_gcount, q1_acount, q1_wcount]
+        context['question2_ranks'] = [q2_ecount, q2_gcount, q2_acount, q2_wcount]
+        context['question3_ranks'] = [q3_ecount, q3_gcount, q3_acount, q3_wcount]
+        return context
 # Create your views here.
 # def fdsHome(request):
 #     return render(request, 'fds/index.html')
