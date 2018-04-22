@@ -6,7 +6,6 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, FormView
 from .models import Questions, Answers, Users
-from fds.forms import UsersAnswers
 
 
 class UserCreateView(CreateView):
@@ -16,22 +15,6 @@ class UserCreateView(CreateView):
 
 class ThankingYouView(TemplateView):
     template_name = 'fds/thankingyou.html'
-
-
-# class AnswersFormView(FormView):
-#     template_name = 'questionform.html'
-#     form_class = UsersAnswers
-#     success_url = '/goodbye/'
-#
-#     def get_form_kwargs(self):
-#         kwargs = super(AnswersFormView, self).get_form_kwargs()
-#         kwargs['user'] = self.kwargs['user']
-#         return kwargs
-#
-#     def post(request, *args, **kwargs):
-#         form = users()
-#         form_valid(form)
-
 
 def questions(request, user):
     user = Users.objects.get(pk=user) # Getting user object
@@ -44,7 +27,7 @@ def questions(request, user):
 
         return HttpResponseRedirect(reverse('fds:goodbye'))
 
-    return render(request, 'fds/questions.html', {'questions':questions, 'user':user_id, 'ranks':['Excellent', 'Good', 'Average', 'Worst']})
+    return render(request, 'fds/questions.html', {'questions':questions, 'user':user.id, 'ranks':['Excellent', 'Good', 'Average', 'Worst']})
 
 
 class GoodByeView(TemplateView):
@@ -75,10 +58,10 @@ class DashboardView(TemplateView):
     template_name = 'fds/dashboard.html'
 
     def get_context_data(self, **kwargs):
-        main_ecount, main_gcount, main_acount, main_wcount = [0,0,0,0]
-        q1_ecount, q1_gcount, q1_acount, q1_wcount = [0,0,0,0]
-        q2_ecount, q2_gcount, q2_acount, q2_wcount = [0,0,0,0]
-        q3_ecount, q3_gcount, q3_acount, q3_wcount = [0,0,0,0]
+        main_ecount = main_gcount = main_acount = main_wcount = 0
+        q1_ecount = q1_gcount = q1_acount = q1_wcount = 0
+        q2_ecount = q2_gcount = q2_acount = q2_wcount = 0
+        q3_ecount = q3_gcount = q3_acount = q3_wcount = 0
         context = super(DashboardView, self).get_context_data(**kwargs)
         main_ranks = Users.objects.values_list('rank', flat=True)
 
@@ -171,3 +154,18 @@ class DashboardView(TemplateView):
 # class QuestionsView(CreateView):
 #     model = Answers
 #     fields = ['user', 'question', 'answer', 'rank']
+
+
+# class AnswersFormView(FormView):
+#     template_name = 'questionform.html'
+#     form_class = UsersAnswers
+#     success_url = '/goodbye/'
+#
+#     def get_form_kwargs(self):
+#         kwargs = super(AnswersFormView, self).get_form_kwargs()
+#         kwargs['user'] = self.kwargs['user']
+#         return kwargs
+#
+#     def post(request, *args, **kwargs):
+#         form = users()
+#         form_valid(form)
